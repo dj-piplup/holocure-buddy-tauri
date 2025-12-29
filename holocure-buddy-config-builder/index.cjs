@@ -16,7 +16,7 @@ let cachedLibPath;
 
 const homedir = os.homedir();
 const appDataFolder = join(homedir, process.platform === 'win32' ? '\\AppData\\Local\\' : '/.local/share/')
-const configFolder = join(appDataFolder, 'Holocure-Buddy');
+const configFolder = join(appDataFolder, 'holocure-buddy');
 const configFile = join(configFolder, 'config.json');
 
 if(!existsSync(configFile)){

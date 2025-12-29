@@ -2,6 +2,6 @@
   "version-jsons": [
     "./package.json",
     "./src-tauri/tauri.conf.json",
-    "./sidecar-node/package.json"
+    "./holocure-buddy-config-builder/package.json"
   ]
 }

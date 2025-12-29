@@ -27,13 +27,11 @@ let styleCheckpoint: Context["styleProps"];
 void loadContext();
 
 async function loadContext(): Promise<void> {
-  await Command.sidecar("binaries/sidecar-node").execute();
-  const cfgPath = await path.join(await path.localDataDir(), 'Holocure-Buddy', 'config.json');
-  logEvent(`Searching for config at ${cfgPath}`)
+  await Command.sidecar("binaries/holocure-buddy-config-builder").execute();
+  const cfgPath = await path.join(await path.localDataDir(), 'holocure-buddy', 'config.json');
   config = await fs
     .readTextFile(cfgPath)
     .then(JSON.parse);
-  logEvent(`Loaded config:\n${JSON.stringify(config).replace(/",/g, '",\n').replace('{','{\n').replace('}', '\n}').replace(/^"/gm, '  "')}`);
   if (!config.save || !config.data) {
     await promptFileConfig();
   }
@@ -43,16 +41,7 @@ async function loadContext(): Promise<void> {
     );
   }
   buddyCtx = new Context(config);
-  try {
-    await buddyCtx.init();
-  } catch (e) {
-    if(e instanceof Error) {
-      logEvent(e.message, 'error')
-    }
-    if(typeof e === 'string') {
-      logEvent(e, 'error');
-    }
-  }
+  await buddyCtx.init();
   if (buddyCtx.saveData) {
     styleCheckpoint = { ...buddyCtx.styleProps };
     attachConfigListeners(

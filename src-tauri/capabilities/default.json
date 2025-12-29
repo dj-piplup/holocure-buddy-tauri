@@ -15,7 +15,7 @@
       "allow": [
         {
           "args": [],
-          "name": "binaries/sidecar-node",
+          "name": "binaries/holocure-buddy-config-builder",
           "sidecar": true
         }
       ]
@@ -24,7 +24,7 @@
       "identifier": "fs:allow-watch",
       "allow": [
         {
-          "path": "$DATA/**/*"
+          "path": "$LOCALDATA/**/*"
         }
       ]
     },
@@ -35,7 +35,7 @@
           "path": "**/*"
         },
         {
-          "path": "$DATA/**/*"
+          "path": "$LOCALDATA/**/*"
         }
       ]
     },
@@ -43,7 +43,7 @@
       "identifier": "fs:allow-write-text-file",
       "allow": [
         {
-          "path": "$DATA/Holocure-Buddy/config.json"
+          "path": "$LOCALDATA/Holocure-Buddy/config.json"
         }
       ]
     }

@@ -1,13 +1,13 @@
 {
   "name": "holocure-buddy",
   "private": true,
-  "version": "2.0.4",
+  "version": "2.0.5",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "build:sidecar": "pnpm run --filter sidecar-node build",
+    "build:sidecar": "pnpm run --filter holocure-buddy-config-builder build",
     "tauri": "tauri",
     "version:set": "node ./meta-scripts/set-version.mjs"
   },

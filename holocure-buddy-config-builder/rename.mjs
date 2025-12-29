@@ -10,6 +10,6 @@ if (!targetTriple) {
 }
 // TODO: create `src-tauri/binaries` dir
 fs.renameSync(
-  `sidecar-node${ext}`,
-  `../src-tauri/binaries/sidecar-node-${targetTriple}${ext}`
+  `holocure-buddy-config-builder${ext}`,
+  `../src-tauri/binaries/holocure-buddy-config-builder-${targetTriple}${ext}`
 );
