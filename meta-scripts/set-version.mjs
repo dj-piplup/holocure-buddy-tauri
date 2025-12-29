@@ -16,10 +16,21 @@ if(!/\d+\.\d+\.\d+(\-.+\.\d+)?/.test(version)) {
 
 function swapVersion(filePath) {
   const fileContents = readFileSync(filePath).toString();
-  const updated = fileContents.replace(/^(\s*"version": ?)"[^"]+",/m, (_, pre) => `${pre}"${version}",`);
-  writeFileSync(filePath, updated)
+  const ext = filePath.match(/\.([^\.]+)$/)?.[1];
+  switch(ext) {
+    case 'json': {
+      return fileContents.replace(/^(\s*"version"\s*:\s*)"[^"]+",/m, (_, pre) => `${pre}"${version}",`);
+    }
+    case 'toml': {
+      return fileContents.replace(/^(\s*version\s*=\s*)"[^"]+"/m, (_, pre) => `${pre}"${version}"`);
+    }
+  }
 }
 
-for(const path of config['version-jsons']) {
-  swapVersion(join(import.meta.dirname, '..', path));
+for(const path of config['version-files']) {
+  const updated = swapVersion(path);
+  if(!updated) {
+    throw new Error(`Couldn't update version of ${path}`);
+  }
+  writeFileSync(path, updated);
 }

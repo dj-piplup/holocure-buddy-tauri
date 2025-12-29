@@ -69,6 +69,7 @@ export class Context {
         eventType.access.kind === "close" &&
         eventType.access.mode === "write"
       ) {
+        logEvent('Save file updated');
         void this.#processSave();
       }
     });

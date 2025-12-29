@@ -1,7 +1,8 @@
 {
-  "version-jsons": [
+  "version-files": [
     "./package.json",
     "./src-tauri/tauri.conf.json",
-    "./holocure-buddy-config-builder/package.json"
+    "./holocure-buddy-config-builder/package.json",
+    "./src-tauri/Cargo.toml"
   ]
 }
