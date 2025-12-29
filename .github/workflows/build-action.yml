@@ -14,6 +14,7 @@ jobs:
       fail-fast: false
       matrix:
         platform: [ubuntu-22.04, windows-latest]
+    permissions: write-all
 
     runs-on: ${{ matrix.platform }}
     steps:
