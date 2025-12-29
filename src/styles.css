@@ -1,0 +1,240 @@
+:root {
+  font-size: var(--custom-font-size, 16px);
+  font-family: var(--custom-font-family, system-ui), system-ui, Inter, Avenir,
+    Helvetica, Arial, sans-serif;
+  --text-color: var(--custom-text-color, #f0f0f0);
+  --background-color: var(--custom-background-color, #2b2b33);
+  --border-color: var(--custom-border-color, #666);
+  --row-size: 1.9rem;
+  --selected-color: var(--custom-selected-color, rgb(230, 100, 30));
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.cleared {
+  background-color: var(--custom-cleared-color, green);
+}
+
+.stage {
+  font-size: 0.75rem;
+  width: var(--row-size);
+  text-align: center;
+  height: var(--row-size);
+}
+
+.hidden {
+  display: none;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  padding-bottom: 1rem;
+  margin: 0;
+  overflow-x: hidden;
+}
+h1 {
+  width: 100%;
+  text-align: center;
+}
+
+h2,
+h3 {
+  margin: 0;
+  padding: 8px;
+}
+
+button,
+input[type="text"] {
+  background-color: color-mix(in srgb, var(--background-color), black 15%);
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+}
+
+button {
+  cursor: pointer;
+  padding: 4px 6px;
+  &:hover {
+    background-color: (in srgb, var(--background-color), white 10%);
+  }
+}
+
+.row {
+  display: flex;
+  gap: 2px;
+  line-height: var(--row-size);
+  vertical-align: middle;
+  box-sizing: content-box;
+  min-width: fit-content;
+}
+
+.side-by-side {
+  display: flex;
+  width: 100vw;
+  > section {
+    flex: none;
+  }
+}
+
+#log-section {
+  flex-grow: 1;
+  border: 1px solid var(--border-color);
+  height: 8.5rem;
+  overflow-y: auto;
+  margin-inline-end: 1.5rem;
+  padding-block: 0.25em;
+  padding-inline: 0.5em;
+  align-items: start;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  pre {
+    margin: 0;
+    font-size: 0.9rem;
+    &:not(:last-child) {
+      color: #999;
+    }
+  }
+}
+
+.wrapped-column {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(var(--column-length, auto-fill), var(--row-size));
+  grid-auto-columns: var(--column-width, fit-content);
+  grid-column-gap: 3ch;
+  grid-row-gap: 2px;
+  justify-content: center;
+}
+
+.letter {
+  width: 14ch;
+}
+
+.name {
+  width: 8ch;
+}
+
+#clears-section {
+  width: 55vw;
+  background-color: var(--background-color);
+  z-index: 1;
+}
+
+#clears-zone .row {
+  height: var(--row-size);
+
+  &[selected] {
+    outline: solid 3px var(--selected-color);
+    outline-offset: 3px;
+    z-index: 1;
+  }
+}
+
+#letters-section {
+  width: 45vw;
+}
+
+#letters-zone,
+#clears-zone {
+  width: 100%;
+}
+
+#letters-zone {
+  --row-size: 1.4rem;
+}
+
+#rolls-section {
+  height: 8.5rem;
+  margin-inline: 1.5rem;
+  width: 20rem;
+  border: solid 1px var(--border-color);
+  .buttons {
+    width: fit-content;
+    margin-bottom: 4px;
+  }
+  p {
+    margin-block: 8px;
+    text-align: center;
+  }
+  label {
+    padding-inline-start: 4px;
+  }
+}
+section {
+  box-sizing: border-box;
+  padding-inline: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#open-config-button {
+  position: fixed;
+  top: 1.25rem;
+  right: 1.5rem;
+  background-color: var(--background-color);
+  border: none;
+  height: 3rem;
+  width: 3rem;
+}
+
+dialog[open] {
+  top: 2rem;
+  z-index: 3;
+
+  color: var(--text-color);
+  background-color: var(--background-color);
+  border: solid 1px var(--border-color);
+  border-radius: 0.5rem;
+  padding: 0.75rem 2rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  align-items: stretch;
+
+  & > h2 {
+    text-align: center;
+    padding: 0;
+    line-height: 0.9;
+  }
+
+  &::backdrop {
+    background-color: #0004;
+  }
+}
+
+#config-buttons {
+  display: flex;
+  gap: 8px;
+  align-self: flex-end;
+  .threatening {
+    background-color: color-mix(in srgb, var(--background-color), red 15%);
+  }
+}
+
+button {
+  font-family: inherit !important;
+}
+
+option {
+  font-family: var(--sample-font);
+}
+
+#config-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1rem 10ch;
+  row-gap: 4px;
+  p {
+    margin: 0;
+    margin-inline-end: -1rem;
+    z-index: 4;
+    text-align: end;
+  }
+  p:not(:empty) + input {
+    padding-inline-start: 1.1rem;
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "sidecar-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build:bin": "pkg ./index.cjs --output sidecar-node",
+    "rename": "node rename.mjs",
+    "build": "pnpm build:bin && pnpm rename"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.25.0",
+  "devDependencies": {
+    "@yao-pkg/pkg": "^6.11.0",
+    "esbuild": "^0.27.2"
+  }
+}
