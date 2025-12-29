@@ -8,7 +8,7 @@ const defaultConfigBase = {
   "borderColor": "#666",
   "clearedColor": "#008000",
   "selectedColor": "#E6641E",
-  "font": "system-ui"
+  "font": "Fira Sans"
 }
 
 

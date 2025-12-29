@@ -151,34 +151,15 @@ export function attachConfigListeners(
     const prop = el.id
       .replace("-input", "")
       .replace(/-(\w)/g, (_, l) => l.toUpperCase()) as keyof UserConfig;
-    if (el.tagName.match(/SELECT/i)) {
-      const blank = document.createElement("option");
-      blank.innerText = "";
-      el.appendChild(blank);
-
-      document.fonts.ready.then((list) => {
-        const fonts = new Set<string>();
-        list.forEach((f) => fonts.add(f.family));
-        fonts.forEach((family) => {
-          const matchedSpace = family.match(/\w+ \w+(?=\s)/)?.[0];
-          if (matchedSpace && fonts.has(matchedSpace)) {
-            return;
-          }
-          const option = document.createElement("option");
-          option.value = option.innerText = family;
-          option.style.setProperty("--sample-font", family);
-          el.appendChild(option);
-        });
-      });
-    }
     attachListener(el, "input", () => {
-      tempConfig[prop] = el.value;
       if (prop.endsWith("Color")) {
         tempConfig[prop] =
           el.value.match(/^\p{Hex}+$/u) &&
           [3, 4, 6, 8].includes(el.value.length)
             ? `#${el.value}`
             : defaultConfig[prop];
+      } else {
+        tempConfig[prop] = el.value;
       }
       sendUpdate(tempConfig);
     });
