@@ -8,3 +8,4 @@
 
 # Sidecars
 /binaries/*
+!/binaries/.gitkeep
