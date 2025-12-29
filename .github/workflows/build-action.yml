@@ -1,5 +1,7 @@
 name: "Test Build"
 
+on: workflow_dispatch
+
 jobs:
   test-tauri:
     strategy:
