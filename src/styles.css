@@ -95,7 +95,21 @@ button {
     font-size: 0.9rem;
     &:not(:last-child) {
       color: #999;
+      &.logged-error {
+        color: #A22
+      }
+      &.logged-warning {
+        color: #A92
+      }
     }
+  }
+
+  .logged-error {
+    color: #F22
+  }
+
+  .logged-warning {
+    color: #FD1
   }
 }
 

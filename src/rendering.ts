@@ -72,10 +72,11 @@ export function logLetter(letter: string) {
   logEvent(`Obtained fan letter for ${letter}`);
 }
 
-export function logEvent(message: string) {
+export function logEvent(message: string, type: 'error' | 'warning' | 'default' = 'default') {
   const text = document.createElement("pre");
   const d = new Date();
   const time = d.toLocaleTimeString();
+  text.classList.add(`logged-${type}`);
   text.innerText = `> (${time}) ${message}`;
   document.getElementById("log-section")?.appendChild(text);
 }

@@ -4,6 +4,7 @@ import {
   watchImmediate,
   writeTextFile,
 } from "@tauri-apps/plugin-fs";
+import { logEvent } from "./rendering";
 
 export class Context {
   configContents: Config;
@@ -94,6 +95,9 @@ export class Context {
 
   async #initData() {
     const dataFileContents = await readTextFile(this.dataFile);
+    if(!dataFileContents) {
+      logEvent('Data file empty', 'error');
+    }
     const letterDataStart = dataFileContents.match(/Shrimp/)?.index;
     const letterDataEnd = dataFileContents.match(/allFanLetters/)?.index;
     this.#dataFileData = {
@@ -111,6 +115,9 @@ export class Context {
 
   async #processSave(): Promise<SaveData> {
     const saveFileContents = await readTextFile(this.saveFile);
+    if(!saveFileContents) {
+      logEvent('Save file did not have contents', 'error');
+    }
     const rawSaveData = this.#parseSave(saveFileContents);
     const stages = this.#sortStages(
       rawSaveData.completedStages

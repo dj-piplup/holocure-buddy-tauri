@@ -1,7 +1,16 @@
 const {join} = require('path');
 const os = require('os');
 const { readFileSync, existsSync, writeFileSync, mkdirSync } = require('fs');
-const defaultConfigBase = require('../src/assets/default_config.json');
+// Remember to double check with ./src/assets/default_config.json if this doesn't make sense
+const defaultConfigBase = {
+  "textColor": "#F0F0F0",
+  "backgroundColor": "#2B2B33",
+  "borderColor": "#666",
+  "clearedColor": "#008000",
+  "selectedColor": "#E6641E",
+  "font": "system-ui"
+}
+
 
 let cachedLibPath;
 

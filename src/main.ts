@@ -9,6 +9,7 @@ import {
   hasClear,
   hasLetter,
   logClear,
+  logEvent,
   logLetter,
   renderClears,
   renderLetters,
@@ -32,6 +33,7 @@ async function loadContext(): Promise<void> {
       baseDir: path.BaseDirectory.Data,
     })
     .then(JSON.parse);
+  logEvent(`Loaded config:\n${JSON.stringify(config).replace(/",/g, '",\n').replace('{','{\n').replace('}', '\n}').replace(/^"/gm, '  "')}`);
   if (!config.save || !config.data) {
     await promptFileConfig();
   }
@@ -41,7 +43,16 @@ async function loadContext(): Promise<void> {
     );
   }
   buddyCtx = new Context(config);
-  await buddyCtx.init();
+  try {
+    await buddyCtx.init();
+  } catch (e) {
+    if(e instanceof Error) {
+      logEvent(e.message, 'error')
+    }
+    if(typeof e === 'string') {
+      logEvent(e, 'error');
+    }
+  }
   if (buddyCtx.saveData) {
     styleCheckpoint = { ...buddyCtx.styleProps };
     attachConfigListeners(
@@ -63,6 +74,8 @@ async function loadContext(): Promise<void> {
     );
     handleSaveData(true);
     buddyCtx.onSaveChanged(() => handleSaveData(false));
+  } else {
+    logEvent('Save data did not initialize correctly');
   }
 }
 
