@@ -1,6 +1,6 @@
 import {readFileSync, writeFileSync} from 'fs';
 import {join} from 'path';
-import config from '../custom-script-configs.json' with {type: 'json'};
+import config from './custom-script-configs.json' with {type: 'json'};
 
 const versionFlagIndex = process.argv.indexOf('--v');
 if(versionFlagIndex < 0 || !process.argv[versionFlagIndex + 1]) {
