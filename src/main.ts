@@ -24,17 +24,14 @@ let buddyCtx: Context;
 let selected: string | undefined;
 let repeatCount = 0;
 let styleCheckpoint: Context["styleProps"];
-logEvent('script started');
 void loadContext();
 
 async function loadContext(): Promise<void> {
-  logEvent('about to run sidecar');
   await Command.sidecar("binaries/sidecar-node").execute();
-  logEvent('sidecar executed');
+  const cfgPath = await path.join(await path.localDataDir(), 'Holocure-Buddy', 'config.json');
+  logEvent(`Searching for config at ${cfgPath}`)
   config = await fs
-    .readTextFile("Holocure-Buddy/config.json", {
-      baseDir: path.BaseDirectory.Data,
-    })
+    .readTextFile(cfgPath)
     .then(JSON.parse);
   logEvent(`Loaded config:\n${JSON.stringify(config).replace(/",/g, '",\n').replace('{','{\n').replace('}', '\n}').replace(/^"/gm, '  "')}`);
   if (!config.save || !config.data) {
