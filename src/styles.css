@@ -252,3 +252,14 @@ option {
     padding-inline-start: 1.1rem;
   }
 }
+
+#version-number {
+  font-size: 0.7rem;
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  padding: 0.5rem;
+  background-color: var(--background-color);
+  border: 1px solid var(--border-color);
+  border-radius: 0.25rem;
+}

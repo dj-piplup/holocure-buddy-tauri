@@ -13,20 +13,22 @@ import {
   logLetter,
   renderClears,
   renderLetters,
+  renderVersionNumber,
   selectRow,
   setButtonState,
   writeConfigValues,
 } from "./rendering";
 import { attachListener, cleanupListeners } from "./events";
+import { getVersion } from "@tauri-apps/api/app";
 
 let config: Config;
 let buddyCtx: Context;
 let selected: string | undefined;
 let repeatCount = 0;
 let styleCheckpoint: Context["styleProps"];
-void loadContext();
+void initialize();
 
-async function loadContext(): Promise<void> {
+async function initialize(): Promise<void> {
   await Command.sidecar("binaries/holocure-buddy-config-builder").execute();
   const cfgPath = await path.join(await path.localDataDir(), 'holocure-buddy', 'config.json');
   config = await fs
@@ -43,6 +45,8 @@ async function loadContext(): Promise<void> {
   buddyCtx = new Context(config);
   await buddyCtx.init();
   if (buddyCtx.saveData) {
+    const version = await getVersion();
+    renderVersionNumber(version);
     styleCheckpoint = { ...buddyCtx.styleProps };
     attachConfigListeners(
       buddyCtx.styleProps,
@@ -64,7 +68,7 @@ async function loadContext(): Promise<void> {
     handleSaveData(true);
     buddyCtx.onSaveChanged(() => handleSaveData(false));
   } else {
-    logEvent('Save data did not initialize correctly');
+    logEvent('Save data did not initialize correctly', 'error');
   }
 }
 
@@ -143,6 +147,7 @@ function handleSaveData(initial?: boolean) {
 }
 
 async function promptFileConfig() {
+  logEvent('Default save file location not found. The custom location picker is not made yet. Low priority, since this is a personal project, but you can ask:\nhttps://github.com/dj-piplup/holocure-buddy-tauri/issues/1')
   return false;
 }
 

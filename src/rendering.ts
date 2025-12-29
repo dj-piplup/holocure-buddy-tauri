@@ -194,6 +194,13 @@ export function writeConfigValues(config: UserConfig) {
   });
 }
 
+export function renderVersionNumber(n: string) {
+  const el = document.getElementById('version-number');
+  if(el){
+    el.innerText = `Version: ${n}`;
+  }
+}
+
 function formatName(char: string) {
   switch (char) {
     default: {
