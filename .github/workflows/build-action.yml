@@ -1,6 +1,12 @@
 name: "Test Build"
 
-on: workflow_dispatch
+on: 
+  workflow_dispatch:
+    inputs:
+      newVersion:
+        description: 'Version'
+        required: true
+        type: text
 
 jobs:
   test-tauri:
@@ -32,6 +38,9 @@ jobs:
           
       - name: install frontend dependencies
         run: pnpm install # change this to npm, pnpm or bun depending on your project
+
+      - name: set version
+        run: pnpm version:set --v ${{ inputs.newVersion }}
 
       - name: build sidecar
         run: pnpm build:sidecar
