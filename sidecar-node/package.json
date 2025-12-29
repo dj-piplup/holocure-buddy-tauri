@@ -6,7 +6,7 @@
   "scripts": {
     "build:bin": "pkg ./index.cjs --output sidecar-node",
     "rename": "node rename.mjs",
-    "build": "pnpm build:bin && pnpm rename"
+    "build": "pnpm install && pnpm build:bin && pnpm rename"
   },
   "keywords": [],
   "author": "",
