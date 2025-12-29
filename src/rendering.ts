@@ -88,6 +88,7 @@ export function deselectRows(): void {
 }
 
 export function selectRow(char: string, repeatCount: number): void {
+  deselectRows();
   const repeatText = formatRepeatText(repeatCount);
   document.getElementById("output-roll")!.innerText = `${formatName(char)}${
     repeatText && ` (${repeatText})`

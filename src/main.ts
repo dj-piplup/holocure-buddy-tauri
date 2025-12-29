@@ -121,7 +121,6 @@ function handleRoll(type: (typeof rollTypes)[number]) {
 function handleSaveData(initial?: boolean) {
   selected = undefined;
   repeatCount = 0;
-  deselectRows();
   if (!initial) {
     for (const character in buddyCtx.saveData?.clears) {
       for (const stage of buddyCtx.saveData.clears[character]) {
@@ -129,6 +128,8 @@ function handleSaveData(initial?: boolean) {
           logClear(character, stage);
           if (autoRollEnabled()) {
             handleRoll(lastRollType);
+          } else {
+            deselectRows();
           }
         }
       }
