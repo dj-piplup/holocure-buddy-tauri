@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "holocure-buddy-tauri",
-  "version": "2.0.0-beta",
-  "identifier": "com.djpiplup.holocure-buddy-tauri",
+  "productName": "holocure-buddy",
+  "version": "2.0.2",
+  "identifier": "com.djpiplup.holocure-buddy",
   "build": {
     "beforeDevCommand": "pnpm dev",
     "devUrl": "http://localhost:1420",

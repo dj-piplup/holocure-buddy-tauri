@@ -9,7 +9,7 @@ if(versionFlagIndex < 0 || !process.argv[versionFlagIndex + 1]) {
 }
 
 const version = process.argv[versionFlagIndex + 1];
-if(!/\d+\.\d+\.\d+(\-.+)?/.test(version)) {
+if(!/\d+\.\d+\.\d+(\-.+\.\d+)?/.test(version)) {
   console.error('Version does not match pattern: <major>.<minor>.<patch>(-<branch>)?');
   process.exit(1);
 }

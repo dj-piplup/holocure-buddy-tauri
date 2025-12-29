@@ -24,10 +24,13 @@ let buddyCtx: Context;
 let selected: string | undefined;
 let repeatCount = 0;
 let styleCheckpoint: Context["styleProps"];
+logEvent('script started');
 void loadContext();
 
 async function loadContext(): Promise<void> {
+  logEvent('about to run sidecar');
   await Command.sidecar("binaries/sidecar-node").execute();
+  logEvent('sidecar executed');
   config = await fs
     .readTextFile("Holocure-Buddy/config.json", {
       baseDir: path.BaseDirectory.Data,

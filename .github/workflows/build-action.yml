@@ -37,14 +37,17 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libwebkit2gtk-4.0-dev libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
           
-      - name: install frontend dependencies
-        run: pnpm install # change this to npm, pnpm or bun depending on your project
-
       - name: set version
         run: pnpm version:set --v ${{ inputs.newVersion }}
 
+      - name: install frontend dependencies
+        run: pnpm install # change this to npm, pnpm or bun depending on your project
+        
       - name: build sidecar
         run: pnpm build:sidecar
+
+      - name: build frontend
+        run: pnpm build
         
       - uses: tauri-apps/tauri-action@v0
         env:
