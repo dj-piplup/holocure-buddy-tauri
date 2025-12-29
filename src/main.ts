@@ -1,7 +1,7 @@
 import * as fs from "@tauri-apps/plugin-fs";
 import * as path from "@tauri-apps/api/path";
 import { Command } from "@tauri-apps/plugin-shell";
-import { Config, Context } from "./Context";
+import { Context } from "./Context";
 import {
   attachConfigListeners,
   autoRollEnabled,
@@ -21,7 +21,6 @@ import {
 import { attachListener, cleanupListeners } from "./events";
 import { getVersion } from "@tauri-apps/api/app";
 
-let config: Config;
 let buddyCtx: Context;
 let selected: string | undefined;
 let repeatCount = 0;
@@ -31,7 +30,7 @@ void initialize();
 async function initialize(): Promise<void> {
   await Command.sidecar("binaries/holocure-buddy-config-builder").execute();
   const cfgPath = await path.join(await path.localDataDir(), 'holocure-buddy', 'config.json');
-  config = await fs
+  const config = await fs
     .readTextFile(cfgPath)
     .then(JSON.parse);
   if (!config.save || !config.data) {
@@ -42,7 +41,7 @@ async function initialize(): Promise<void> {
       "The buddy does not have a configured save file or data file to read"
     );
   }
-  buddyCtx = new Context(config);
+  buddyCtx = new Context(config, cfgPath);
   await buddyCtx.init();
   if (buddyCtx.saveData) {
     const version = await getVersion();

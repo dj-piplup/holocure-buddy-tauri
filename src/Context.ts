@@ -1,5 +1,4 @@
 import {
-  BaseDirectory,
   readTextFile,
   watchImmediate,
   writeTextFile,
@@ -7,9 +6,11 @@ import {
 import { logEvent } from "./rendering";
 
 export class Context {
+  #configFile: string;
+  #dataFile: string;
+  #saveFile: string;
+
   configContents: Config;
-  dataFile: string;
-  saveFile: string;
   #saveData?: SaveData;
   get saveData(): SaveData | undefined {
     return this.#saveData;
@@ -45,21 +46,29 @@ export class Context {
     this.#syncStyleSheet();
   }
 
-  constructor(config: Config) {
+  constructor(config: Config, path: string) {
     this.configContents = config;
     const { save, data, ...style } = config;
-    this.dataFile = data!;
-    this.saveFile = save!;
-    this.#styleProps = style;
+    this.#configFile = path;
+    this.#dataFile = data!;
+    this.#saveFile = save!;
+    this.#styleProps = convertOldConfigs(style);
     this.#syncStyleSheet();
   }
   async init() {
     await this.#initData();
     await this.#processSave();
-    await watchImmediate(this.saveFile, (event) => {
+    await watchImmediate(this.#saveFile, (event) => {
       // The WatchEvent interface is wrong
-      const eventType = event.type as Record<string, {kind: string, mode: string}>; 
-      if('access' in eventType && eventType.access.kind === 'close' && eventType.access.mode === 'write') {
+      const eventType = event.type as Record<
+        string,
+        { kind: string; mode: string }
+      >;
+      if (
+        "access" in eventType &&
+        eventType.access.kind === "close" &&
+        eventType.access.mode === "write"
+      ) {
         void this.#processSave();
       }
     });
@@ -69,12 +78,10 @@ export class Context {
   writeStyleConfig() {
     const newConfig = {
       ...this.#styleProps,
-      save: this.saveFile,
-      data: this.dataFile,
+      save: this.#saveFile,
+      data: this.#dataFile,
     } satisfies Config;
-    writeTextFile("Holocure-Buddy/config.json", JSON.stringify(newConfig), {
-      baseDir: BaseDirectory.Data,
-    });
+    writeTextFile(this.#configFile, JSON.stringify(newConfig));
   }
 
   #syncStyleSheet() {
@@ -94,9 +101,9 @@ export class Context {
   }
 
   async #initData() {
-    const dataFileContents = await readTextFile(this.dataFile);
-    if(!dataFileContents) {
-      logEvent('Data file empty', 'error');
+    const dataFileContents = await readTextFile(this.#dataFile);
+    if (!dataFileContents) {
+      logEvent("Data file empty", "error");
     }
     const letterDataStart = dataFileContents.match(/Shrimp/)?.index;
     const letterDataEnd = dataFileContents.match(/allFanLetters/)?.index;
@@ -114,9 +121,9 @@ export class Context {
   }
 
   async #processSave(): Promise<SaveData> {
-    const saveFileContents = await readTextFile(this.saveFile);
-    if(!saveFileContents) {
-      logEvent('Save file did not have contents', 'error');
+    const saveFileContents = await readTextFile(this.#saveFile);
+    if (!saveFileContents) {
+      logEvent("Save file did not have contents", "error");
     }
     const rawSaveData = this.#parseSave(saveFileContents);
     const stages = this.#sortStages(
@@ -187,6 +194,19 @@ export class Context {
     });
     return copy;
   }
+}
+
+function convertOldConfigs(v: Config & Record<string, string>): Config {
+  if ("fontfamily" in v && typeof v.fontfamily === "string") {
+    v.font = v.fontfamily;
+    delete v.fontfamily;
+  }
+  if ("fontFamily" in v && typeof v.fontFamily === "string") {
+    v.font = v.fontFamily;
+    delete v.fontFamily;
+  }
+
+  return v;
 }
 
 interface RawSave {
