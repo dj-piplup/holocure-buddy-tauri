@@ -155,7 +155,7 @@ function handleSaveData(initial?: boolean) {
 }
 
 async function promptFileConfig() {
-  logEvent('Default save file location not found. The custom location picker is not made yet. Low priority, since this is a personal project, but you can ask:\nhttps://github.com/dj-piplup/holocure-buddy-tauri/issues/1')
+  logEvent('Default save file location not found. The custom location picker is not made yet. Low priority, since this is a personal project, but you can ask:\nhttps://github.com/dj-piplup/holocure-buddy-tauri/issues/1', 'error')
   return false;
 }
 

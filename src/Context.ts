@@ -101,7 +101,7 @@ export class Context {
   async #initData() {
     const dataFileContents = await readTextFile(this.#dataFile);
     if (!dataFileContents) {
-      logEvent("Data file empty", "error");
+      logEvent("Game Data file empty or busy", "error");
     }
     const letterDataStart = dataFileContents.match(/Shrimp/)?.index;
     const letterDataEnd = dataFileContents.match(/allFanLetters/)?.index;
@@ -118,10 +118,11 @@ export class Context {
     };
   }
 
-  async #processSave(): Promise<SaveData> {
+  async #processSave(): Promise<void> {
     const saveFileContents = await readTextFile(this.#saveFile);
     if (!saveFileContents) {
-      logEvent("Save file did not have contents", "error");
+      // Apparently this is normal on windows. There are 3 "modifies" at the end of a game, and the filesystem is blocked for 2 of them
+      return;
     }
     const rawSaveData = this.#parseSave(saveFileContents);
     const stages = this.#sortStages(
@@ -149,8 +150,8 @@ export class Context {
       gachikoi,
       allDone,
       owned,
-    } satisfies SaveData;
-    return this.saveData;
+    }
+    return;
   }
 
   #parseSave(fileContents: string): RawSave {
