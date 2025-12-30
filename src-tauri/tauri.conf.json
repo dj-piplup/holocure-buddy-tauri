@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "holocure-buddy",
+  "productName": "HoloCure Buddy",
   "version": "2.0.2",
   "identifier": "com.djpiplup.holocure-buddy",
   "build": {
