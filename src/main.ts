@@ -120,10 +120,13 @@ function handleRoll(type: (typeof rollTypes)[number]) {
 function handleSaveData(initial?: boolean) {
   selected = undefined;
   repeatCount = 0;
+  let newClear = false;
+  let newLetter = false;
   if (!initial) {
     for (const character in buddyCtx.saveData?.clears) {
       for (const stage of buddyCtx.saveData.clears[character]) {
         if (!hasClear(character, stage)) {
+          newClear = true;
           logClear(character, stage);
           if (autoRollEnabled()) {
             handleRoll(lastRollType);
@@ -135,12 +138,17 @@ function handleSaveData(initial?: boolean) {
     }
     for (const letter of buddyCtx.saveData!.letters) {
       if (!hasLetter(letter)) {
+        newLetter = true;
         logLetter(letter);
       }
     }
   }
-  renderClears(buddyCtx);
-  renderLetters(buddyCtx);
+  if(initial || newClear) {
+    renderClears(buddyCtx);
+  }
+  if(initial || newLetter) {
+    renderLetters(buddyCtx);
+  }
   for (const type of rollTypes) {
     setButtonState(type, rollHandlers[type], canRoll(type));
   }
