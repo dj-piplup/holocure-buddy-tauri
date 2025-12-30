@@ -5,7 +5,6 @@ import { Context } from "./Context";
 import {
   attachConfigListeners,
   autoRollEnabled,
-  deselectRows,
   hasClear,
   hasLetter,
   logClear,
@@ -128,11 +127,6 @@ function handleSaveData(initial?: boolean) {
         if (!hasClear(character, stage)) {
           newClear = true;
           logClear(character, stage);
-          if (autoRollEnabled()) {
-            handleRoll(lastRollType);
-          } else {
-            deselectRows();
-          }
         }
       }
     }
@@ -145,6 +139,9 @@ function handleSaveData(initial?: boolean) {
   }
   if(initial || newClear) {
     renderClears(buddyCtx);
+    if (autoRollEnabled()) {
+      handleRoll(lastRollType);
+    }
   }
   if(initial || newLetter) {
     renderLetters(buddyCtx);
