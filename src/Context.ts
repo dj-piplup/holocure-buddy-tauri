@@ -64,12 +64,12 @@ export class Context {
         string,
         { kind: string; mode: string }
       >;
+      logEvent(`File event:\n${JSON.stringify(event)}`);
       if (
         "access" in eventType &&
         eventType.access.kind === "close" &&
         eventType.access.mode === "write"
       ) {
-        logEvent('Save file updated');
         void this.#processSave();
       }
     });
